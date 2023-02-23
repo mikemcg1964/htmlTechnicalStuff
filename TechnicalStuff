@@ -1,0 +1,1041 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+
+<head>
+<title>Welcome to Emelem Ltd.</title>
+<meta http-equiv="Content-Script-Type" Content="text/javascript">
+<meta http-equiv="refresh" content="36000">
+<meta name="description" content="Emelem Ltd.">
+<meta name="keywords" content="ICT, Consultation, Outsourcing, Support, Training, Solutions">
+
+
+
+<script src=dato.js></script>
+
+
+</head>
+
+<body>
+
+<center>
+
+<table width=90%><tr>
+
+<td width=30%>
+
+<center>
+
+<a href=http://www.emelem.com><img src=logoBLUE.bmp border=0></a><br>
+<font face=arial color=1111CC size=4><strong>IT Solutions</strong></font>
+
+</center>
+
+</td><td width=70% align=right valign=center>
+
+<font face=arial color=1111CC><strong>Today is <script>document.write(dato)</script>&nbsp &nbsp &nbsp </strong></font>
+
+</td></tr></table>
+
+
+
+<!---hr width=90%--->
+
+</p>
+<table width=90%><tr><td>
+
+<font face=arial size=2>
+
+<strong><u>Technical Notes</u></strong><pre>
+mstsc /multimon
+Notepad shortcut: C:\Windows\System32\notepad.exe
+DOS:>fc - file compare sim. to diff
+DOS:>findstr /s "mySub()" *.vb <- searches directory and sub directories for string in files
+DOS:>netsh trace start capture=true traceFile="C:\myTrace.etl" (netsh trace stop (takes a while)
+Stop Windows Update on Win10: Set network connection as 'metered', then set updates to 'do not update over metered connection'.
+If 'hibernate' is not available: PowerShell> powercfg -h on
+UNIX/linux:> df . -h <- shows space on current partition (-h = human readable)
+Win+Arrow Moves Window
+CTRL+Tab tabs through web pages
+<u>REGEX</u>
+backup log: used ^(?![\d\s][\dD]).* replaced with blank then ^\s+ replaced with blank^
+^.*(?!foobar).* replace with blank deletes all lines that don't have foobar in them
+^(?!INSERT INTO).* replace with blank
+^.*IPAdd .*\r\n replace with blank deletes all lines containing "IPADD "
+^.*Case " replace with blank replaces everything up to and including "Case "
+^\s+ replace with blank gets rid of blank lines
+foobar replace with \r\n replaces foobar with newline
+<a href=https://cheatography.com/davechild/cheat-sheets/regular-expressions/>REGEX QRG</a>
+<a href=https://docs.microsoft.com/en-us/office/vba/language/reference/user-interface-help/data-type-summary>MS Data Types</a>
+
+<u>Excel</u>
+Note: much quicker to loop column by column than row by row<br>
+<pre>
+Sub Template()
+	Dim lastRow As Long, r As Long
+	Dim lastCol As Integer, c As Integer
+	Dim mySheet as String
+	mySheet = "FooBar"
+	With Sheets(mySheet)
+		.AutoFilterMode = False
+		lastRow = .Cells(Rows.Count,1).end(xlUp).Row
+		lastCol = .Cells(1, Columns.Count).end(xlToLeft).Column
+		For r = 2 to lastRow
+			For c = 1 to lastCol
+			Next c
+		Next r
+	.Range("A" & lastRow + 1 & ":A" & Rows.Count).EntireRow.Delete
+	End With
+End Sub</pre>
+<table><tr><td>
+Using Cells for Range:
+</td><td>
+Range(Cells(1,1),Cells(5,5))
+</td></tr><tr><td>
+Find Header: 
+</td><td>
+Rows("1:2").SelectSelection.Find(What:="Mikeyboy", After:="A1", Lookin:="xlFormulas, _<br>
+&nbsp;&nbsp;&nbsp;LookAt:=xlPart, SearchOrder:=xlByRows, SearchDirection:=xlNext, _<br>
+&nbsp;&nbsp;&nbsp;MatchCase:=False, SearchFormat:=False).Activate
+</td></tr><tr><td>
+<font color = green>'convert all cells to values<br>
+&nbsp;&nbsp;e.g. get rid of formulas:</font>
+</td><td>
+Cells.Copy: Range("A1").PasteSpecial Paste:=xlPasteValues
+</td></tr><tr><td>
+<font color = green>'Select Rows:</font>
+</td><td>
+Rows("1:2").Select
+</td></tr><tr><td>
+<font color = green>'Select Columns:</font>
+</td><td>
+Columns("A:B").Select
+</td></tr>
+<tr><td>
+Formula to convert Seconds<br>
+to hh mm ss
+</td><td>
+=TEXT(A2/3600,"0") & "h" & TEXT(A2/60,"0") & "m" & TEXT(MOD(A2/60),"0") & "s"
+</td><td>
+
+</td></tr>
+<tr><td>
+
+</td><td>
+
+</td><td>
+
+</td></tr>
+</table>
+<font color = green>'Select cell by OffSet:</font>
+ActiveCell.OffSet(0, -1).Select
+<font color = green>'Copy column straight into array:</font>
+myArray = Range(A1:A100).Value <font color = green>' OR Range("A1:A" & Cells(Rows.Count, 1).End(xlUp).Row).Value</font>
+<font color = green>'Apply formula to whole column:</font>
+Range("B2:B" & Cells(Rows.Count, 1).End(xlUp).Row).Formula = "=Left(A2,7)" <font color = green>' | Value = "Hello World"</font>
+=IF(ISNA(VLOOKUP("A2", Sheet2!A:A,1,0)), "No", "Yes") <font color = green>' gives Yes/No if lookup is found or not.</font>
+Insert Cut/Copied Rows - Columns("A:C").Select: Selection.Cut/Copy: Columns("D:D").Select: Selection.Insert Shift:=xlToRight, CopyOrigin:=xlFormatFromLeftOrAbove
+Conditional highlight row: Select all data excluding headers, use 'by formula' e.g. =TRIM($C2) <> ""
+Tick = Wingdings2 P, cross = O (capital O)
+Application.WorkSheetFunction. ' use Excel function
+Application.CutCopyMode = False ' Clears selected copy area
+'Empty' keyword e.g. If Trim(A1) = Empty Then ...
+Range("A3") is the same as Cells(3, 1). Note Row is first.
+<font color = red>myRange = Split(ActiveCell.SpecialCells(xlLastCell).Address, "$") <- gives last Col & Row as myRange(1) & (2)
+r = Sheets("Sheet1").Cells(rows.count, 1).End(xlUp).Row ' Gives last populated row
+c = Sheets("Sheet1").Cells(1, Columns.Count).End(xlToLeft).Column ' Gives last column (as column no.)
+=INDIRECT(CHAR(CELL("col")+64)&CELL("row")) - doubt this works beyond z...</font>
+=INDIRECT("F"&CELL("row"))
+=CHAR(ROW()+63) Makes Row 2 = 'A'. ="A"&CHAR(ROW()+37) Makes Row 28 = 'AA'. 54+11, 80-15 etc.
+=OR(CELL("col")=COLUMN(),CELL("row")=ROW()) <- use to conditionally highlight
+This can be done in vba but it would clear any existing highlights:
+Sub Worksheet_SelectionChange(ByVal Target As Range)
+	Cells.Style = "Normal" ' OR Cells.Interior.ColorIndex = xlNone
+	Rows(ActiveCell.Row).Style = "Accent1"
+	Columns(ActiveCell.Column).Style = "Accent1"
+	Cells(ActiveCell.Row, ActiveCell.Column).Select <font color = green>' Not sure why it needs this but hey...</font>
+End Sub
+
+CTRL+SHIFT+ARROW then press | or \ {SHOULD} move to next cell with different value...
+Blank zero custom format: 0;-0;;@ Format +ve ; -ve; Zero, Text <a href=https://exceljet.net/custom-number-formats>details</a>
+Bad cell format: Text: 156, 0, 6 or #9C0006. Background: 255,199,206 or #FFC7CE.
+Break out IP: E5: 192.168.135.127	F5:=FIND(".",E5) G5:=FIND(".",E5,F5+1) H5:=FIND(".",E5,G5+1) I5:=LEFT(E5,F5-1) J5:=MID(E5,F5+1,G5-F5-1)	K5:=MID(E5,G5+1,H5-G5-1) L5:=RIGHT(E5,LEN(E5)-H5)
+Better to use simple function:
+Function IPpart(IPaddress, Part)
+	'fourParts = Split(IPadress,".")
+	IPpart = Split(IPadress,".")(Part - 1)
+End Function
+Count Characters (e.g. dots) in string: ={SUMPRODUCT(}LEN(A1)-LEN(SUBSTITUTE(A1,".","")){)} 
+Logon from ID: =CODE(LEFT(A2,1))-55&RIGHT(A2,6)
+VBA unhide all sheets: For Each ws in Sheets: ws.Visible = True: Next
+
+Force numbers to be numbers!
+	Sheet1.Range("A1", "C10").NumberFormat = "General"
+	Sheet1.Range("A1", "C10").Value = .Value
+
+Open Environ$("USERPROFILE") & "\Downloads\text.txt") For Output As #1
+Print #1, "Hello World": Close #1
+
+m = MsgBox("Question", vbQuestion + vbYesNo + vbDefaultButton1, "MsgBox Title")
+if m = vbNo Then ... etc.
+
+Sub delSheets()
+	Dim Sh As Worksheet
+	Application.DisplayAlerts = False
+	For Each Sh in Worksheets
+		If Sh.Name <> ActiveSheet.Name Then Sh.Delete
+	Next Sh
+	Application.DisplayAlerts = True
+End Sub
+	
+<a href=http://codevba.com/office/read_text_file_line_by_line.htm>Read in a text file in VBA</a>
+XLSheetPW. xlsx-zip. SED *.xml 's/<sheetprotection.*>//a'. ReZip. zip-xls(NOT xlsx).
+XLVBAPW. xlsx-zip. SED *.bin 's/DPA/DPx/a'. ReZip. zip-xls(NOT xlsx). Open & turn protect off in vb tools.
+
+?selection.address ' shows selected range e.g. $A$1:$C$3
+API request: Need the following refs (MS): Internet Contols, WinHTTP, XML v.6.0
+Dim APIreq As New WinHttpRequest
+With APIreq
+	.Open "GET/POST", {Server URL}, False
+	.SetRequestHeader "Authorization"/"AuthTokenName", "Basic {base64 username:password}"/Token
+	.Send {+ xml body if required}
+	Debug.Print .Status, .StatusText, .ResponseText
+End With	
+
+Selection.ClearContents
+Range("A1"). EntireColumn.Delete, Style = "Bad", AutoFilter
+Application. StatusBar = "Hello"/"", Cursor = xlWait/xlDefault, ScreenUpdating = False/True, EnableEvents = False/True, 
+	Calculation = xlCalculation[Manual/Automatic]
+
+Cells.Select
+Selection.NumberFormat = 0
+Freezing:
+	ActiveWindow.SplitColumn = 0
+	ActiveWindow.SplitRow = 1
+	ActiveWindow.FreezePanes = True
+	
+Dim myArray <font color = green>' must declare first!</font>
+Dim myArray(0 to 3)
+myArray(1) ="Hello"
+ReDim Preserve myArray(0 to 3) <font color = green>'will keep "Hello"</font>
+ReDim myArray(0 to 3) <font color = green>' Will delete it</font>
+	
+My Signature(!): =ROMAN(2100)
+Dynamic Named Range: =$A$2:INDEX($A$2:$A$200,COUNTIF($A$2:$A$200,"?*")) <font color = green>' "?*" is like wildcard for not blank</font>
+Good formatting cell stuff: <a href=https://www.excelhowto.com/macros/formatting-a-range-of-cells-in-excel-vba/>www.excelhowto.com</a>
+ActiveCell.Characters(Start:=1, Length:=3).Font.Bold = True
+ActiveCell.Characters(Start:=1, Length:=3).Font.Color = vbWhite
+
+<u>MS Project</u>
+VBA:
+Sub addTsk()
+	Dim tsk As Task
+
+	Set tsk = ActiveProject.Tasks.Add("Task Name")
+	tsk.Start = "dd/mm/yyyy hh:mm"
+	'tsk.Finish = "dd/mm/yyyy hh:mm"
+	tsk.Duration = "8 hrs"
+	tsk.ResourceNames = "Mike"
+	tsk.Notes = "Hello World"
+	tsk.Predecessors = tsk.ID - 1 ' & "SS+1h"
+	tsk.Calendar = "24 Hours"
+End Sub
+
+Sub addTskFromCSV()
+	Dim tsk As Task, FileNum As Integer, DataLine As String, Dim LineItems As Variant, myDate As DATETIME
+	
+	'example of c:\data.csv:
+	'13/06/2020 08:00, 4, task description
+	
+	FileNum = FreeFile()
+	Open "c:\data.csv" For Input As #FileNum
+	
+	While Not EOF(FileNum)
+		Line Input #FileNum, Dataline
+		LineItems = Split(Dataline, ",")
+		Set tsk = ActiveProject.Tasks.Add(LineItems(2))
+		tsk.ResourceNames = LineItems(2) ' Note: I use this to show task description against bar in Gantt
+		tsk.Start = LineItems(0)
+		tsk.Duration = LineItems(1) & " hrs"
+		myDate = Left(LineItems(0), 10)
+		If Now() > myDate Then tsk.PercentComplete = "100"
+	Wend
+End Sub
+	
+
+<u>Access</u>
+Group By Month: Add Field {Name}: Format({DateField],"mm")
+VBA:
+DoCmd.RunSQL "{SQL}" <- cannot be select, 'select into' OK
+DoCmd.RunSavedImportExport("Import-table")
+DoCmd.SetWarnings True/False
+DoCmd.OpenTable "Table"
+DoCmd.Close acTable, "Table"
+DoCmd.DeleteObject acTable, "Table"
+DoCmd.CopyObject, "New_Table", acTable, "Orig_Table"
+DoCmd.Rename "New_Table_Name", acTable, "Orig_Table_Name"
+DoCmd.SetOrderBy "LastName DESC, FirstName ASC" 
+Linking a table:
+	Create SQL, SELECT * FROM myTable IN "" [MS Access;PWD="";DATABASE=C:\Databases\MyDB.accdb];
+SELECT Replace("Mike", "ke", "ck") AS ReplaceString
+INSERT INTO table (field1, field2, etc.) VALUES (field1, field2, etc.) first part can be omitted if no. of fields match
+INSERT INTO table2 SELECT * FROM table1 
+INSERT INTO table2 (field, field2, field3) SELECT field1, field2, field3 FROM table1
+DBEngine.CompactDatabase strBackupFile, DatabaseName, , , ";PWD=" & DbPWD
+CREATE {Table} (ID AUTOINCREMENT PRIMARY KEY, {field2} TEXT(255), {field3} DOUBLE)
+Numerical Data Types: BYTE/SMALLINT - 0-255, INT - -32768 to +32767
+
+[Auto]                  COUNTER" _
+[Byte]                  BYTE" _
+[Integer]               SMALLINT" _
+[Long]                  INTEGER" _
+[Single]                REAL" _
+[Double]                FLOAT" _
+[Decimal]               DECIMAL(18,5)" _
+[Currency]              MONEY" _
+[ShortText]             CHAR" _
+[LongText]              MEMO" _
+[PlaceHolder1]          MEMO" _
+[DateTime]              DATETIME" _
+[YesNo]                 BIT" _
+[OleObject]             IMAGE" _
+[ReplicationID]         UNIQUEIDENTIFIER" _
+[Required]              INTEGER NOT NULL" _
+[Unicode Compression]   MEMO WITH COMP" _
+[Indexed]               INTEGER" _
+CONSTRAINT [PrimaryKey] PRIMARY KEY ([Auto])" _
+CONSTRAINT [Unique Index] UNIQUE ([Byte],[Integer],[Long])" _
+
+(above from: https://docs.microsoft.com/en-us/office/client-developer/access/desktop-database-reference/create-table-statement-microsoft-access-sql)
+
+Delete dupes:
+	DELETE * FROM tablea a WHERE a.field <>
+     (SELECT MAX(b.field) FROM tableb b
+      WHERE b.field2 = a.field2);
+
+SaveAsText, acForm, "FormName", "C:\Downloads\Form.txt"
+LoadFromText, acForm, "FormName", "C:\Downloads\Form.txt"
+
+sSQL = "SELECT * FROM myTable"
+Set rst = CurrentDB.OpenRecordset(sSQL)
+With rst
+	Do While Not .EOF
+		Debug.Print rst!Field1 ' OR:-
+		Debug.Print .Fields("Field1")
+		.MoveNext
+	Loop
+End With
+
+Sub quickcount(table_name)
+	sSQL = "SELECT Count(*) AS [myCount] FROM [" & table_name & "]"
+	Set rst = CurrentDb.OpenRecordSet(sSQL)
+	Debug.Print "count of records in " & table_name & " =" & rst!myCount
+	Set rst = Nothing
+End Sub
+
+
+Rename FieldName:
+Set db = CurrentDb
+db.TableDefs("myTable").Fields("myFieldName").Name = "NewFieldName"
+db.Close
+
+<u>NPP</u>
+CTRL+SHIFT+X copies whole line
+CTRL+D copies line down (similar to excel)
+ALT+CLICK & DRAG column mode
+SHIFT+ALT+CLICK start, release click end allows selection of column in large file.
+
+<u>Wireshark</u>
+filters:
+ip.addr	ip.src	ip.dst
+	and/or can be used
+tcp.port ==
+tcp.analysis.flags
+http.host contains "api"
+!(arp or dns or icmp) <- not any of these protocols
+right click on TCP conversation and select 'follow this stream' (remember I used this in training to show the passwords were un-encrypted!)
+tcp contains facebook
+udp contains facebook
+http.request
+http.response.code ==200 <- e.g. 200 OK
+tcp.flags.syn == 1 <- rapidly increasing could show denial of service attack
+tcp.flags.reset == 1
+sip
+rtp
+sip && rtp
+use ip.addr == 10.0.0.0 to show all packets to this subnet
+(or add /23 for smaller subnet)
+
+</pre>
+<br>
+Generate random words in Word: type =rand(5,3) or =ipsum(5,3) or =lorem(5,3)<br>
+(may not all work!<br>
+<br>
+VNC tunnel through ssh:<br>
+ssh -L 5901:localhost:5901 REMOTE_IP
+then use localhost:5901 on VNC client<p>
+
+<pre>VBA
+sSQL = "SELECT * FROM [table]"
+Set rst = CurrentDB.OpenRecordset(sSQL)
+With rst
+ Do While Not .EOF
+  DoCmd.RunSQL "UPDATE [table2] SET [field] = [field] & " & .Fields("[field]")
+  .MoveNext
+ Loop
+End With
+Set rst = Nothing
+
+DoCmd.RunSavedImportExport("Import-[table]")
+
+DoCmd.SetWarnings False/True
+
+<u>MySQL</u>
+mysqldump -u{user} -p{password} {db_name} > backup.sql
+mysql -u{user} -p{password} {db_name} < backup.sql
+mysqldump -u{user} -p{password} {db_name} {table1} {table2} > backup.sql
+mysqldump -u{user} -p{password} {db_name} --ignore-table={db_name}.{table1} --ignore-table={db_name}.{table2} > backup.sql
+mysql> use mysql;
+mysql> create database {db_name}
+mysql> create user '{user}'@'%' identified by '{password}';
+mysql> grant all privileges on {db_name}.* to '{user}'@'%';
+mysql> show grants for {user};
+show databases, show schemas
+
+<u>vi</u>
+y = 'yank' (copy) y$ = copy all to eol
+p = paste
+:s/foo/bar/ or :s/foo/bar/g
+
+<u>Sketchup Make</u>
+Move to origin: select and move then enter [0,0,0]
+Import picture/texture: select picture/texture in file select dialog
+Select tool - spacebar
+Unselect - shift click with select tool
+
+<u>Python</u>
+import hashlib, hmac
+key={secret key}
+print'key :',key
+message='POST\nhttps\n{https:// & API Server & port e.g. :443}\n{rest of path e.g. /apis/users}\napplication/json\n{public key}\n{unique id (anything as long as unique AKA 'nonce'}\nWed, 29 Sep 2021 12:52:21\n{"userNames": "BloggsF"}\n'
+print'message :', message
+encodedkey=str(key.encode('UTF-8'))
+print'encoded key :',encodedkey
+hmac1=hmac.new(encodedkey,message.encode('UTF-8'),hashlib.sha512)
+digestvalue1=hmac1.digest()
+print('Digest Value :',digestvalue1)
+digestvalue2=hmac1.hexdigest()
+print'Digest Value in hexadecimal:'
+print(digestvalue2)
+print'Size of the MAC value ',8*hmac1.digest_size
+
+<u>Simple API Call in VBA</u> (needs winhttp ref)
+Dim myReq As New WinHttpRequest
+myReq.Open "GET", {URL}, False
+myReq.SetRequestHeader {Auth Header}, {Token}
+myReq.Option(WinHttpRequestOption_SslErrorIgnoreFlags) = &H3300
+myReq.Send
+
+<u>Outlook</u>
+My Favourite Config:
+View->Layout->To-Do Bar: Tick Calendar and Tasks only
+View->Layout->Folder Pane: Tick Normal only
+View->Layout->Reading Pane: Select Right (or Off). 
+View->Layout->Reading Pane: Select Options and tick 'Mark item as read when selection changes'. 
+View->Arrangement->Message Preview: Select 1 Line (or 3 Lines if Reading Pane is Off).
+VBA:
+Application.ActiveExplorer.CommandBars.ExecuteMso ("MessagePreviewOff")
+Application.ActiveExplorer.CommandBars.ExecuteMso ("MessagePreview1Line")
+
+
+</pre>
+<a href="#top">Back to Top</a><br>
+
+
+Show directory usage: sudo du -x -h -d 1 / (or e.g. /usr)<p>
+
+html outlook signature: %APPDATA%\Microsoft\Signatures<p>
+
+ifconfig wlan0 down/up<p>
+
+net user administrator /active:yes<p>
+
+unmount iso by running command prompt or power shell as admin and running: mountvol [drive letter] /d<p>
+
+<hr>
+
+Excel TRIM function: in B1 enter: =TRIM(RIGHT(A1,LEN(A1)-SEARCH(",",A1)-1))<br>
+ in C1 enter: =LEFT(A1,SEARCH(",",A1)-1)<p>
+ 
+<hr>
+
+Access view list of tables by right clicking on 'Navigator' and check hidden items to show MSobject tables. 
+
+<hr>
+
+<font face=courier>
+
+Windows Registry Editor Version 5.00<p>
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]<p>
+
+"CachedLogonsCount"="0"</font><p>
+
+OR<p>
+
+<font face=courier>
+
+Windows Registry Editor Version 5.00<p>
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon]<p>
+
+"DeleteRoamingCache"=dword:00000001</font><p>
+
+<hr>
+
+<font face=courier>
+
+Windows Registry Editor Version 5.00<p>
+
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon<p>
+
+"DefaultUserName"="administrator"<br>
+"AutoAdminLogon"="1"<br>
+"DefaultDomainName"="domain"<br>
+"DefaultPassword"="password"</font>
+
+<hr>
+
+%systemroot%\system32\grouppolicy
+
+<hr>
+
+powercfg /?
+
+<hr>
+
+User Configuration/Administrative Templates > Start Menu and Taskbar  enable Remove access to the context menus for the taskbar<p>
+
+User Configuration/Administrative Templates > Windows Components > Windows Explorer enable Remove Windows Explorer’s default context menu<p>
+
+User Configuration/Administrative Templates > Windows Components > Windows Explorer enable Turn off Windows+X hotkeys<p>
+
+User Configuration/Administrative Templates > System -> Ctrl+Alt+Del Options enable Remove Task Manager
+
+<hr>
+
+<font face=courier>
+
+Windows Registry Editor Version 5.00<p>
+
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer<p> 
+
+"NoTrayItemsDisplay"=dword:00000001</font>
+
+<hr>
+
+Windows Registry Editor Version 5.00
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
+"LastActiveClick"=dword:00000001
+
+<hr>
+
+reg add "HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main" /f[orce] /v[alue] "Start Page" /d[ata] "http://www.emelem.com"
+
+<hr>
+
+Simple File Sharing is turned off in Folder Options
+
+<hr>
+
+systeminfo | find "Up Time"
+
+<hr>
+
+Unable to load Roaming Profile in workgroup even though share is mappable etc. - are OSs the same? same SP? same dotnet framework?<br>
+Check out Security Setting - Network access: Let Everyone permissions apply to anonymous users
+
+<hr>
+
+reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\winlogon" /v cac
+hedlogonscount
+
+<hr>
+img src=file:///C:\Users\[user]\Pictures\[filename]
+
+<hr>
+
+Command Line Shortcuts<p>
+
+appwiz.cpl - Add/Remove Programs*<br>
+certmgr.msc - SSL certificate manager<br>
+cmd[.exe] - DOS Window<br>
+compmgmt.msc - Computer Management<br>
+control[.exe] - Control Panel<br>
+devmgmt.msc - Device Manager<br>
+eventvwr.msc - Event Viewer<br>
+firewall.cpl - Firewall<br>
+gpedit.msc - Group Policy Editor<br>
+gpmc.msc - GP Management Console<br>
+lusrmgr.msc - Local Users and Groups<br>
+mmc[.exe] - MS Management Console<br>
+msconfig[.exe] - System Config Utility (boot.ini etc.)<br>
+netplwiz - manage user log in options etc. <br>
+net statistics server<br>
+perfmon.msc - Performance Monitor<br>
+secpol.msc - Local Security Settings<br>
+services.msc - Services<br>
+sysdm.cpl - My Computer properties<br>
+systeminfo | find "Up Time"<br>
+taskmgr[.exe] - Task Manager<p>
+
+Powercfg -devicequery wake_armed - shows devices enabled to wake PC<p>
+
+control userpasswords2 - same as netplwiz<br>
+
+<hr>
+<b>*Alternative way to uninstall software</b><br>
+Win+r, type 'install' (brings up install folder), add 'subject' column (helps find software),<br>
+right click on software and click 'uninstall'<p>
+
+Avoid the following hardware:<br>
+Linksys WAG 160N Wireless Router. Intermittent disconnect problems only fixed by restarting the router, restarting connected devices has no effect (<a href=http://www.amazon.co.uk/product-reviews/B00164IRRW/ref=cm_cr_dp_all_helpful?ie=UTF8&coliid=&showViewpoints=1&colid=&sortBy=bySubmissionDateDescending>internet is full of similar issues</a>). Update: Try the following: set radio band to 20 MHz, check security 802.1x is not selected.<p>
+
+<pre>
+ACTIVE DIVERTS
+SELECT ddi_exten, install_t_system_symbols.description, call_forward_exten
+FROM install_t_ddi_ext_vlac, install_t_system_symbols
+WHERE call_forward_type<>0 and (name_space="CALL_FORWARD_TYPE" and value=call_forward_type)
+ORDER BY ddi_exten;
+
+CHANGED PASSWORDS
+SELECT install_t_trader.trid, install_t_trader.password, install_t_trader.trader_name
+FROM install_t_trader
+WHERE (((install_t_trader.password) Is Null)) OR ((Val(install_t_trader.password)<>install_t_trader.trid));
+
+STATION INFO
+echo "select cabinet, shelf, slot, device_offset, station_lac, card_type, c.group_name, d.group_name, a.equipped, desk_location from t_station a, t_equipcard b, t_mod_group_name c, t_stn_group_name d where card_lac=plac and module_group_id=c.group_id and  stn_param_group_id=d.group_id order by station_lac" | M_XSQL.MACH -w2000
+
+REMOTE STATION INFO
+SELECT install_t_rmt_ip_station.gsi, install_t_rmt_ip_station.card_lac, install_t_rmt_ip_station.ticx_ip_addr, install_t_rmt_ip_station.device_type, install_t_mod_group_name.group_name AS mod_group_name, install_t_rmt_ip_station.ip_address, install_t_rmt_ip_station.default_gtwy, install_t_rmt_ip_station.subnet_mask, install_t_station.desk_location
+FROM install_t_rmt_ip_station, install_t_station, install_t_mod_group_name
+WHERE (((install_t_rmt_ip_station.gsi)=[station_lac]) AND ((install_t_station.module_group_id)=[group_id]))
+ORDER BY install_t_rmt_ip_station.gsi;
+
+SCSA CHANNEL INFO
+SELECT b.desk_location, install_t_traderlogon.trid, install_t_system_symbols.label, a.hwy_num, a.scsa_offset, a.hwy_num+1 AS dataline, (a.scsa_offset Mod (a.hwy_num*64)) AS timeslot
+FROM install_t_traderlogon, install_t_scsa_map AS a, install_t_system_symbols, install_t_station AS b
+WHERE (((install_t_traderlogon.lac)=[a].[station_lac]) AND ((a.channel_type)=[value]) AND ((install_t_system_symbols.name_space)="SCSA_CHANNEL_TYPES") AND ((b.station_lac)=[a].[station_lac]))
+ORDER BY a.scsa_offset;
+
+TRADER BUTTONS (ENTER TRID)
+SELECT C.description AS Type, A.button_number AS [Button #], B.description AS [Button Type], A.personal_label AS [Button Desc {8}], A.key_sequence AS [Speed Dial/ Btn Seq Codes{40}/ VM Ext Num{20}], D.description AS [Incoming Button Action / ICM Spkr Vol], A.lac AS [Line LAC / Descriptor or Button Code], A.site_id AS [Line Networking Site Id / ICM Spkr On/Off]
+FROM install_t_trader_button AS A, install_t_system_symbols AS B, install_t_system_symbols AS C, install_t_system_symbols AS D
+WHERE (B.name_space="sx_button_types" And A.button_type=B.value) and (A.button_class=C.value and C.name_space="button_class") and (A.incoming_action=D.value and D.name_space="button_incoming_action") And A.trid=TraderID
+ORDER BY A.trid, A.button_class, A.button_number;
+
+UNNATTENDED ALARMS
+select cabinet as ca, shelf as sh, slot as sl, port as pt, alarm_id as id, description, alarm_type as tp, alarm_last, priority as pri, alarm_state as st, alarm_count as ac, ddi_trunk as dd_t, ddi_extension as dd_x from t_alarm_log, t_system_symbols where alarm_reset = '0000-00-00 00:00:00' and name_space='alarm_id' and alarm_id = value order by alarm_last desc
+
+CLEAR ALARM
+insert into t_alarm_log (cabinet,shelf,slot,port,alarm_id,alarm_type,alarm_last,priority,alarm_state,alarm_count,triplet,ddi_trunk,ddi_extension) values (1,3,15,1,33,1,"2003-09-25 23:54:19",2,2,1,0,-1,-1)
+
+select unique * from t_alarm_log where cabinet=1 and shelf=3 and slot=15 and alarm_state=2
+
+
+ALL ALARMS
+select cabinet as ca, shelf as sh, slot as sl, port as pt, alarm_id as id, description, alarm_type as tp, alarm_last, alarm_reset, priority as pri, alarm_state as st, alarm_count as ac, ddi_trunk as dd_t, ddi_extension as dd_x from t_alarm_log, t_system_symbols where name_space='alarm_id' and alarm_id = value order by alarm_last desc
+
+select cabinet as ca, shelf as sh, slot as sl, port as pt, alarm_id as id, a.description, alarm_type as tp, alarm_last, priority as pri, alarm_state as st, alarm_count as ac, ddi_trunk as dd_t, ddi_extension as dd_x from t_alarm_log, t_system_symbols as a, t_system_symbols as b where alarm_reset = '0000-00-00 00:00:00' and a.name_space='alarm_id' and alarm_id = value order by alarm_last
+
+LINE REPORT
+select line_lac as lac, lcn, device_channel as ch, card_type as card, t_line.circuit_id, line_group_id, t_line.equipped as quip, descr_label, system_descriptor from t_line, t_wire where t_line.line_wire_link_id=t_wire.line_wire_link_id order by line_lac
+
+#!/bin/sh
+##=Begin Shell Script Preamble=======================================================
+##
+## Button (LAC) Finder script by Mike McGowan v.1 July 28th 2011
+##
+##
+##
+##=End Shell Script Preamble========================================================
+cd /usr/sx/db
+
+if [ $# = 0 ]; then
+ echo
+ echo "  No LAC or VLAC entered. Please retry using \"lacfind LAC\""
+ echo
+else
+ echo
+ echo "Button (LAC) Finder by Mike McGowan - v.1 28th July 2011"
+ echo
+ echo "select a.trid, button_number, lac, site_id, extended_label from t_trader_button a, t_trader_fav_entry b where a.lac = $1 and a.trid=b.trid and button_number=number and button_class=2 order by trid, button_number" | M_XSQL.MACH -s -w2000
+ echo
+fi
+
+#!/bin/sh
+##=Begin Shell Script Preamble=======================================================
+##
+## Trader location script by Mike McGowan
+## v.1 July 4th 2011
+##
+##=End Shell Script Preamble========================================================
+cd /usr/sx/db
+echo
+echo "Trader Locator by Mike McGowan - v.1 4th July 2011"
+echo "select t_traderlogon.trid, trader_name, t_station.desk_location from t_trader, t_traderlogon, t_station where trader_name like \"%$1%\" and t_trader.trid=t_traderlogon.trid and station_lac=lac" | M_XSQL.MACH -s
+echo
+
+#!/bin/sh
+##=Begin Shell Script Preamble=======================================================
+##
+## Speaker (LAC) Finder script by Mike McGowan v.1 July 28th 2011
+## 
+## 
+##
+##=End Shell Script Preamble========================================================
+cd /usr/sx/db
+
+if [ $# = 0 ]; then
+ echo
+ echo "  No LAC or VLAC entered. Please retry using \"spkrfind LAC\""
+ echo
+else
+ echo
+ echo "Speaker (LAC) Finder by Mike McGowan - v.1 28th July 2011"
+ echo "select trid, \"Speaker 01\" from t_trader_speaker where speaker1=$1 order by trid" | M_XSQL.MACH -s -w2000 > /tmp/speaker_info
+ echo "select trid, \"Speaker 02\" from t_trader_speaker where speaker2=$1 order by trid" | M_XSQL.MACH -s -w2000 >> /tmp/speaker_info
+ echo "select trid, \"Speaker 03\" from t_trader_speaker where speaker3=$1 order by trid" | M_XSQL.MACH -s -w2000 >> /tmp/speaker_info
+ echo "select trid, \"Speaker 04\" from t_trader_speaker where speaker4=$1 order by trid" | M_XSQL.MACH -s -w2000 >> /tmp/speaker_info
+ echo "select trid, \"Speaker 05\" from t_trader_speaker where speaker5=$1 order by trid" | M_XSQL.MACH -s -w2000 >> /tmp/speaker_info
+ echo "select trid, \"Speaker 06\" from t_trader_speaker where speaker6=$1 order by trid" | M_XSQL.MACH -s -w2000 >> /tmp/speaker_info
+ echo "select trid, \"Speaker 07\" from t_trader_speaker where speaker7=$1 order by trid" | M_XSQL.MACH -s -w2000 >> /tmp/speaker_info
+ echo "select trid, \"Speaker 08\" from t_trader_speaker where speaker8=$1 order by trid" | M_XSQL.MACH -s -w2000 >> /tmp/speaker_info
+ echo "select trid, \"Speaker 09\" from t_trader_speaker where speaker9=$1 order by trid" | M_XSQL.MACH -s -w2000 >> /tmp/speaker_info
+ echo "select trid, \"Speaker 10\" from t_trader_speaker where speaker10=$1 order by trid" | M_XSQL.MACH -s -w2000 >> /tmp/speaker_info
+ echo "select trid, \"Speaker 11\" from t_trader_speaker where speaker11=$1 order by trid" | M_XSQL.MACH -s -w2000 >> /tmp/speaker_info
+ echo "select trid, \"Speaker 12\" from t_trader_speaker where speaker12=$1 order by trid" | M_XSQL.MACH -s -w2000 >> /tmp/speaker_info
+ echo "select trid, \"Speaker 13\" from t_trader_speaker where speaker13=$1 order by trid" | M_XSQL.MACH -s -w2000 >> /tmp/speaker_info
+ echo "select trid, \"Speaker 14\" from t_trader_speaker where speaker14=$1 order by trid" | M_XSQL.MACH -s -w2000 >> /tmp/speaker_info
+ echo "select trid, \"Speaker 15\" from t_trader_speaker where speaker15=$1 order by trid" | M_XSQL.MACH -s -w2000 >> /tmp/speaker_info
+ echo "select trid, \"Speaker 16\" from t_trader_speaker where speaker16=$1 order by trid" | M_XSQL.MACH -s -w2000 >> /tmp/speaker_info
+ echo
+ echo "LAC $1 is on the following speakers"
+ echo "select system_descriptor from t_line where line_lac=$1" | M_XSQL.MACH -s
+ echo
+ echo "TrID   Speaker"
+ echo "----   ----------"
+ sort -n /tmp/speaker_info | grep Speak
+ # rm /tmp/speaker_info
+fi
+
+#!/bin/sh
+##=Begin Shell Script Preamble=======================================================
+##
+## Script to show trids that aren't recorded
+## v.1 July 19th 2011
+## usage examples: no_rec
+##
+##=End Shell Script Preamble========================================================
+user_inp=" "
+cd /usr/sx/db
+echo
+echo "No Record Script by Mike McGowan - v.1 19th July 2011"
+echo "the following trids have no record map set"
+echo
+echo "SELECT a.trid, trader_name, b.trid FROM t_trader a, OUTER t_ip_record_map b WHERE b.trid=a.trid ORDER BY a.trid"| M_XSQL.MACH -s -w2000 > /tmp/no_rec.txt
+head -2 /tmp/no_rec.txt
+cat /tmp/no_rec.txt | grep -i "32768"
+rm -r /tmp/no_rec.txt
+echo
+
+
+#!/bin/sh
+##=Begin Shell Script Preamble=======================================================
+##
+## Line Info script by Mike McGowan
+## v.1 July 25th 2011
+## usage examples: line_info 1234
+##
+##=End Shell Script Preamble========================================================
+user_inp=" "
+cd /usr/sx/db
+if [ $# = 0 ]; then
+ user_inp = "1024"
+else
+  user_inp=$1
+fi
+echo
+echo "Line Information Script by Mike McGowan - v.1 25th July 2011"
+echo
+echo "select line_lac as llac, system_descriptor as descriptor, customer_field_1 as groop, customer_field_2 as trader, circuit_id from t_line order by line_lac"| M_XSQL.MACH -s -w2000 > /tmp/line_info.txt
+echo "----   -------------------------------   ---------------   ---------------   ----------"
+echo "LAC    Descriptor                        Group             Trader Name       Circuit ID"
+echo "----   -------------------------------   ---------------   ---------------   ----------"
+cat /tmp/line_info.txt | grep -i "$user_inp"
+echo "----   -------------------------------   ---------------   ---------------   ----------"
+rm -r /tmp/line_info.txt
+echo
+
+[LATEST VERSION]
+
+#!/bin/bash
+##=Begin Shell Script Preamble=======================================================
+##
+## Alarm Monitoring Script
+## Mike McGowan 24th April 2012
+## 9-5-12 v.2 added colours
+##
+##
+##=End Shell Script Preamble========================================================
+cd /usr/sx/db
+clear
+echo -e "\e[1;01m\033[36mAlarm Monitor by Mike McGowan v.2 - Now in Technicolor! 9th May 2012\033[37m"
+
+# starttime=`echo "select max(alarm_last) from t_alarm_log" | M_XSQL.MACH -s -w2000 | grep 2012`
+
+starttime="2012-05-14 10:41:41"
+
+while true
+do
+echo "select 'MMcG_BankSt:>' as m,alarm_last,'cab/shelf/slot/port =',cabinet as ca, shelf as sf,slot as st,port as pt,a.description,alarm_id,b.description as alarmstate,'count =' as coun,alarm_count from t_alarm_log,t_system_symbols a,t_system_symbols b where alarm_id not in (339,340,344) and alarm_last > '$starttime' and a.name_space='alarm_id' and a.value=alarm_id and b.name_space='alarm_state' and b.value=alarm_state order by alarm_last" | M_XSQL.MACH -w2000 -s | grep 2012 | sed 's/ /./g' > /usr/sx/db/MIKE/ALARM.TXT
+
+alarmstr=`cat /usr/sx/db/MIKE/ALARM.TXT`
+
+for i in $alarmstr
+
+ do
+
+ if echo $i | grep -q Unattend
+  then
+  echo -e "\a\033[31m$i\033[37m"
+ fi
+
+ if echo $i | grep -q Attend
+  then
+  echo -e "\033[32m$i\033[37m"
+ fi
+
+ if echo $i | grep -q Report
+  then
+  echo "$i"
+ fi
+
+done
+
+starttime=`echo "select max(alarm_last) from t_alarm_log" | M_XSQL.MACH -s -w2000 | grep 2012`
+
+sleep 30
+done
+
+echo
+
+[LATEST VERSION ENDS]
+AAAAB3NzaC1yc2EAAAABIwAAAQEAxVB73pW189iYpv581QL95LNbqPul7/RYZTXd
+hw8R34HzWxGgACYzizCJ8BnGcYDwHqrQKfuUGHwK2PzkrQAK9hsFMufyKmte7631
+bEnLwunDvsDlT+S4WXlmRF0siD++oMck72ZDNT1bM23zhjLU1OKvDF+mTJ62Eh3W
+N6+TzzXUc5cBw7EVrf8CjpG+oJlNEpcjRus7AuwZWuBzdevd2Odo3qzHq1XbWFlD
+NYZvrGuIwcvX+6R2E3Zu/SyedEGW+JmowpuHM/OXJgiRaM8BFfYUM1pzntAxdkuG
+AAABAQC6Cg5kJsF/gxOWIyU93j/XoctzcOzpjpx8ryFTdJvSvFp6b7QdZdjTsWwc
+5RowgOJmDsRE10J9fES99cGqbcExL2tNQReHFMc5wUZ8CxCTNC2WmJ2xumSsIgFW
+Znpx1bO8KXqYk550BqZyUbm5C1r0mzdUzzZlf7L7I3I0gPkT0gCxpNqmjMkMw6tD
+3UFZUeFsC92aqunFg2GgfiM0KHaBRXGt4novD9ZzcU0vKwUSK3I1y1+YaWNJiSx7
+BReY6Hrjrt/8OlFZ2BWUj6MGKFNrmL4F+o7lph8dxXaqHoIR71Y4EL3PtsVpGnAK
+lHhgFY6o+rAz6agmi3eygmQKJGdzAAAAgQD6xj2YEmZQMq3Esr+P452kHy0A8IHK
+hcRcyYnZCx07Ro7uqhGr9BaukcDhhBJt4oDMyPWfdHH1OuwCpWdr0+JMHjRfYPFE
+J/GoonvjaEvOpqlWu8L6Uw5dnGY6VlUrnr4I29jpZdlJ+4+qo34KlR4aLJ2fpDVZ
+jL7iIpWUc4uvdwAAAIEAyW0PaoSG6H1LaS7+ymYB6GmMGEXDrto3i1O5jFpGoQF7
+bj4fRMsmnqk/PmBlaQQ4xrgGR4CzNpJOROyRQGMLobpePMqDrrR516AqpAG9RpCT
+d85XbV/ym5OIOu+ZQ7cc9ZRafgq3vAFXI4nF1WpIdTY1taKw28dBQyUzAlU9sNUA
+AACAPBLht21seEo4+lZN7bOElFjKEBOcWOpDVQz6p3CKawqbWW50abUUfU7yanjc
+xRRXI5XXjwI0712cTSozofN0OwlJkIamzFDqJmoxo2LqtO77TEoVAk/9SzFfbjTA
+hf9G3T2vN0zq78c8NhJcSABfqyBVPNV1AdZEwrMYmIFtfjXOAw
+1eFUYJF+WsDG71jNrIoSGq2NooOQjpFNoEdKlSPfgqi1nt0
+cf872f8f5213f5a1ec37d042ad3e3e3a415618b3
+
+use R1C1 format (file->options->formulas)
+
+select all header(title) cells & copy
+
+open new sheet
+
+select cell R2C2, right click and paste special - transpose (should convert row to column)
+
+scroll and note last row of header + 2, e.g. 80 + 2 = 82
+
+go back to row 1 and in cell R1C1 enter =ROW()-82
+     copy formula all the down to row 80
+
+go to row 1, column 3 and enter ="=" Note: add some html head, body etc. stuff to this.
+
+go to row 2, column 3 and enter =R[-1]C&"IF(RC["&RC[-2]&"]<>"""&""","""&RC[-1]&" : """&"&RC["&RC[-2]&"]&"""&"&lt;br&gt;"""&","""&""")&"
+     copy formula all the down to row 80
+
+go to row after last row and enter =R[-1]C&"""&lt;p&gt;"""
+
+select everything from row 1, column 3 to row 81 column 3 and copy to two cells<br>
+after last cell containing data then copy down ast data cell
+
+Excel find ( AND ) formula: =VALUE(MID(D6,FIND("(",D6)+1,FIND(")",D6)-FIND("(",D6)-1))
+
+Excel substitute (best to view in page source, I will sort at some stage!):
+
+=page_head&SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE("<strong>Test Case Name: </strong>"&C6&"<p><strong>Run Step Name: </strong>"&D6&"<p><strong>Description: </strong>"&F6&"<p>"&IF(AND(I6<>"",I6<>0),"Additional comments: "&I6,"")&"<p><strong>Expected: </strong>"&G6&"<p><strong>Status: </strong>"&E6&"<p><strong>Actual: </strong>"&H6&para_fila,CHAR(10),"<BR>"),CHAR(160),"&nbsp;"),"Aim:","<P><strong>Aim:</strong>"),"Method:","<br><strong>Method:</strong>")
+
+
+Search for word or phrase in concatenated cell
+----------------------------------------------
+=IF(ISERROR(SEARCH(P$5,$J6)),"","Yes")
+where P$5 is word or phrase to search for and $J6 is the cell to search.
+</pre>
+
+</td></tr></table>
+</center>
+<pre>
+Pay as you go caps
+Daily Anytime	Valid for Zones 1, 2, 3, 4, 5	£11.60
+Daily Off-peak	Valid for Zones 1, 2, 3, 4, 5	£11.60
+Weekly (Mon to Sun, contactless only)		£33.90
+Travelcards
+Day Anytime	Valid for Zones 1, 2, 3, 4, 5, 6	£18.10
+Day Off-peak	Valid for Zones 1, 2, 3, 4, 5, 6	£12.70
+7 Day		£33.90
+Monthly		£130.20
+Annual		£1356.00
+</pre>
+<a htef=https://tfl.gov.uk/cdn/static/cms/documents/adult-fares-2018.pdf target=_blank>Adult Fares</a><p>
+
+<b>Signature</b><p>
+font face="calibri">
+Kind regards,<p>
+
+span style='font-size:20.0pt;font-family:"Monotype Corsiva";
+color:#9E1065'>Mike<o:p></o:p></span></p>
+
+span style='font-size:10.0pt;color:#953B6A'><b>Mike BSc.</b></span><br>
+font size=-1>
+Mobile: (+44) <br>
+Email: 
+a href="mailto:mike@com">mike@com</a><br>
+a href="sip:mike@com">
+img src=http://www.skype.com/favicon.ico width=15 height=15> IM: mike@com</a><p>
+Firefly Resources Ltd is a company registered in England and Wales.<br>
+Company registered number 6271989<br>
+Head office address: 366a Crofton Road, Locksbottom, Orpington, Kent BR6 8NN<br>
+Registered office address: 19-21 Swan Street, West Malling, Kent ME19 6JU<p>
+
+hr>
+a href=https://www.fireflyresources.com>
+img src="https://www.fireflyresources.com/wp-content/uploads/2016/03/vector_logo-6602711afd1776fc59f3b9f25f54d7e21f88f04d428120c6d51183fea8b418c0.svg" width=150 height=75 border=0></a>&nbsp;
+a href=https://plus.google.com/u/0/108100368758058248832/about>
+img src=https://plus.google.com/favicon.ico width=25 height=25></a>&nbsp;
+a href=https://twitter.com/FireflyResource>
+img src=https://www.twitter.com/favicon.ico width=25 height=25></a>&nbsp;
+a href=https://www.linkedin.com/company/firefly-resources-ltd>
+img src=https://www.linkedin.com/favicon.ico width=25 height=25></a>&nbsp;&nbsp;
+img src=http://www.emelem.co.uk/iso9001.jpg width=100 height=75><br>
+
+font color=gray></font>
+
+
+a href=https://contactless.tfl.gov.uk/DashBoard target=new>Oyster</a> gmail/ saved in Chrome<p>
+a href=http://www.asteriskguru.com/tools/bandwidth_calculator.php target=_blank>Bandwidth Calculator</a><p>
+a href=http://www.moneysavingexpert.com/latesttip target=_blank>Latest MSE Tips</a><p>
+a href=http://www.taxexpert.co.uk/services/taxation-services/property-tax/what-types-of-interest-can-be-offset-against-my-property-income/ target=new>What interest can be offset against property income?</a><p>
+
+a href=http://www.brighton-accountants.com/blog/maximum-dividends-tax/ target=new>Maximum dividends before higher rate tax in 2015-2016</a><p>
+
+a href=https://online.hmrc.gov.uk/home target=new>HMRC VAT</a> 234213862163<font color=white>/casme44np</font><p>
+
+a href=https://support.office.com/en-nz/article/Learn-to-narrow-your-search-criteria-for-better-searches-in-Outlook-d824d1e9-a255-4c8a-8553-276fb895a8da target=new>Outlook advanced search</a><p>
+
+strong><u>Glossary</u></strong> back to <a href=#top>top</a><p>
+
+AFM - Advanced Fault Management
+dbRACE - Deutsche Bank Risk Assessment and Compliance Evaluation<br>
+EEMS - Embedded Element Management System<br>
+EWI - Engineering Work Item<br>
+G/MZR - Global or Multi Zone Replication<br>
+HBA - Host Based Audit<br>
+NPD - Nice Proposal Designer<br>
+NPI - Numbering Plan Identifier<br>
+OCCAS - Oracle Communications Converged Application Server (Unigy's SIP Engine)<br>
+PLE - Project Lifecycle Engineering (formerly sustaining)<br>
+PR - Product Requirement OR Partial Replication<br>
+PRAM - Patch Release ? Management?<br>
+PSI - Physical Servers Infrastructure (JPMC)<br>
+PTC - Performance Test Centre/System<br>
+PURC - Pending User Request Count (queue)<br>
+RTD - Real Time Diagnostic (Server)<br>
+SSD - Site Specific Documentation<br>
+TON - Type of Number<br>
+UCS - Unigy Central Support (Remote Maint)<br>
+UDA - Unigy Desktop Application?<br>
+VKM - Vendor Knowledge Management (AFM)<br>
+ULE - Unigy Lifecycle Engineering<br>
+VME - Virtual Meeting Room<br>
+WADR - Wide Area Data Replication<br>
+WLog - Work Log<br>
+<br>
+
+
+
+
+
+
+
+<p>
+
+strong><u>Notes</u></strong><p>
+<pre>
+
+activedocument.Variables("cust_name").Value="JP Morgan Chase"
+
+run the ISDN Protocol Extension to VLAC Call Routing Table report
+
+370 FS_ENABLE 0-4/Off, Imm&Busy, RNA, All, Always FS	number	0	4
+
+</pre>
+
+
+<pre>
+
+    Introduction: main objective(s) of lab; hypothesis
+    Methods: a quick description of the procedure
+    Results: statement of the overall findings
+    Discussion: judgment about hypothesis; explanation for judgment
+    Conclusion: what you learned about the scientific concept
+
+script LANGUAGE = "Javascript">
+munf=new Array("January","February","March","April","May",
+"June","July","August","September","October",
+"November","December");
+weekday=new Array("Sun","Mon","Tues","Wednes","Thurs","Fri","Satur")
+mydate=new Date();
+
+
+suffix="th"
+
+if ((mydate.getDate()==1)||(mydate.getDate()==21)||(mydate.getDate()==31))
+	suffix="st"
+if ((mydate.getDate()==2)||(mydate.getDate()==22))
+	suffix="nd"
+if ((mydate.getDate()==3)||(mydate.getDate()==23))
+	suffix="rd"
+
+yar=mydate.getYear()
+yar=yar + 1900
+
+manufacturer=navigator.appName
+//document.write(manufacturer)
+if (manufacturer.indexOf('Microsoft')>=0)
+yar=yar - 1900
+;
+document.write(weekday[mydate.getDay()]+"day the "+mydate.getDate()+suffix+" "+munf[mydate.getMonth()]+" "+yar)
+</pre>
+
+</body>
+</HTML>
+
+
